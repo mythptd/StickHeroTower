@@ -19,22 +19,30 @@ public class PlayerCtrl : MonoBehaviour
 
     private Hero hero;
 
-    private GameObject chest;
+    private bool endGame;
+ 
     // Start is called before the first frame update
     void Start()
     {
-        chest = GameObject.FindGameObjectWithTag("Chest");
+       
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (endGame) return;
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
         {
             Collider2D targetObject = Physics2D.OverlapPoint(mousePosition);
-            if (targetObject && targetObject.tag == "Player")
+            if (GameManager.instance.sliderTapBonus.isActiveAndEnabled)
+            {
+               GameManager.instance.sliderTapBonus.value += 0.2f;
+
+            }
+            else if (targetObject && targetObject.tag == "Player")
             {
                 //liftedfrom = targetObject.transform.position;
                 selectedObject = targetObject.transform.gameObject;
@@ -64,11 +72,13 @@ public class PlayerCtrl : MonoBehaviour
                 {
                     if ( hit.collider.transform.childCount > 0)
                     {
+
                         GameObject getType = hit.collider.transform.GetChild(0).gameObject;
                         if (getType != null)
                         {
+                           
                             if (getType.GetComponent<Weapon>() != null)
-                            {
+                            {   
                                 
                                 selectedObject.transform.SetParent(hit.collider.transform);
                                 selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
@@ -86,6 +96,8 @@ public class PlayerCtrl : MonoBehaviour
                                 if (hero.powerId <= 0)
                                 {
                                     Destroy(selectedObject);
+                                    GameManager.instance.Lost();
+
                                 }
                                 Destroy(getType);
                             }
@@ -109,26 +121,23 @@ public class PlayerCtrl : MonoBehaviour
                                     hero.SetText();
                                     Destroy(getType);
                                     EnemyManager.instance.enemyList.Remove(getType);
-                                    if (EnemyManager.instance.enemyList.Count <= 0)
-                                    {                                       
-                                        if (chest != null)
-                                        {                                            
-                                            selectedObject.GetComponent<Hero>().OpenBox();
-                                            chest.GetComponent<Animator>().Play("Chest");
-                                        }
-                                    }
+                                    StartCoroutine(EnemyManager.instance.CheckWin(selectedObject));
+                                                                      
+                                    //selectedObject.GetComponent<Hero>().OpenBox();
                                 }
                                 else
                                 {
                                     getType.GetComponent<Enemy>().AnimAttack();
                                     Destroy(selectedObject);
+                                    GameManager.instance.Lost();
+
                                 }
                             }
                             else
                             {
                                 SendBackToTile();
                             }
-                            EnemyManager.instance.Colum();
+
 
                         }
                     }
@@ -136,7 +145,12 @@ public class PlayerCtrl : MonoBehaviour
                     {
                         selectedObject.transform.SetParent(hit.collider.transform);
                         selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
+                        hit.collider.GetComponent<Box>().GetEnemy();
+
                     }
+                    EnemyManager.instance.Colum();
+                    EnemyManager.instance.DestroyBox();
+
                 }
                 else
                 {
@@ -144,8 +158,10 @@ public class PlayerCtrl : MonoBehaviour
                     SendBackToTile();
                 }
                 selectedObject = null;
-                //EnemyManager.instance.DestroyBox();
+
             }
+
+
         }
         //if (Input.touchCount > 0)
         //{
@@ -163,5 +179,9 @@ public class PlayerCtrl : MonoBehaviour
     {
         selectedObject.transform.position = liftedfrom;
     }
+    //public void CompareStrength(GameObject player,GameObject Enemy)
+    //{
+
+    //}
   
 }

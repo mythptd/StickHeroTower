@@ -9,6 +9,7 @@ TagManager:
   - BoxEnemy
   - Weapon
   - Chest
+  - Boss
   layers:
   - Default
   - TransparentFX

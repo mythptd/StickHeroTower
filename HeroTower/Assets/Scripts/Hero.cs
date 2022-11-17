@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using static UnityEngine.GraphicsBuffer;
+using DG.Tweening;
 
 public class Hero : MonoBehaviour
 {
@@ -23,9 +24,11 @@ public class Hero : MonoBehaviour
 
     public bool move;
 
+    
+
     void Start()
     {
-
+        
         anim = gameObject.GetComponentInChildren<Animator>();
         textPower = transform.GetChild(0).GetComponent<TextMeshPro>();
         SetText();
@@ -71,9 +74,15 @@ public class Hero : MonoBehaviour
     }
     public void OpenBox()
     {
-        StartCoroutine(Box());
+        if (EnemyManager.instance.enemyList.Count <= 0)
+        {
+            StartCoroutine(Box());
+        }
 
     }
-
-
+    public void MoveToBoss(GameObject boss)
+    {
+        Vector3 pos = boss.transform.position - new Vector3(2, 4, 0);
+        transform.DOMove(pos,1).SetDelay(1);
+    }
 }

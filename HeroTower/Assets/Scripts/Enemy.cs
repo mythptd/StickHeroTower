@@ -6,7 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public MonsterType monsterType;
-    public LayerMask layerMask;
+    
     public int powerIdEnemy;
     public TextMeshPro textPower;
     private Animator anim;
