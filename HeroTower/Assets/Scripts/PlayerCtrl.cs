@@ -19,7 +19,7 @@ public class PlayerCtrl : MonoBehaviour
 
     private Hero hero;
 
-    private bool endGame;
+    private bool drag;
  
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,7 @@ public class PlayerCtrl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (endGame) return;
+        if (drag) return;
 
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         if (Input.GetMouseButtonDown(0))
@@ -39,7 +39,7 @@ public class PlayerCtrl : MonoBehaviour
             Collider2D targetObject = Physics2D.OverlapPoint(mousePosition);
             if (GameManager.instance.sliderTapBonus.isActiveAndEnabled)
             {
-               GameManager.instance.sliderTapBonus.value += 0.2f;
+               GameManager.instance.sliderTapBonus.value += 0.15f;
 
             }
             else if (targetObject && targetObject.tag == "Player")
@@ -49,12 +49,16 @@ public class PlayerCtrl : MonoBehaviour
                 liftedfrom = selectedObject.transform.position;
                 offset = selectedObject.transform.position - mousePosition;
                 hero = selectedObject.GetComponent<Hero>();
+                hero.Drag();
+                selectedObject.transform.parent = null;
+
             }
         }
         if (Input.GetMouseButton(0))
         {
             if (selectedObject)
             {
+                //hero.AnimOverHead();
                 selectedObject.transform.position = mousePosition + offset;
             }
         }
@@ -76,35 +80,43 @@ public class PlayerCtrl : MonoBehaviour
                         GameObject getType = hit.collider.transform.GetChild(0).gameObject;
                         if (getType != null)
                         {
-                           
+
                             if (getType.GetComponent<Weapon>() != null)
-                            {   
-                                
+                            {
+                                StartCoroutine(hero.Drop());
+
+                                hero.GetComponent<Hero>().StartEffect("effect");
                                 selectedObject.transform.SetParent(hit.collider.transform);
-                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
+                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 hero.powerId += getType.GetComponent<Weapon>().powerId;
                                 hero.SetText();
                                 Destroy(getType);
-                                hero.ChangePlayer(getType.GetComponent<Weapon>().idWeapon);
+                                hero.monsterType = getType.GetComponent<Weapon>().monsterType;
+                                hero.ChangePlayer();
+
                             }
                             else if (getType.GetComponent<Trap>() != null)
                             {
+                                StartCoroutine(hero.Drop());
+
                                 selectedObject.transform.SetParent(hit.collider.transform);
-                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
+                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 hero.powerId -= getType.GetComponent<Trap>().powerId;
                                 hero.SetText();
                                 if (hero.powerId <= 0)
                                 {
-                                    Destroy(selectedObject);
+                                    hero.AnimHeroDie();
                                     GameManager.instance.Lost();
-
                                 }
-                                Destroy(getType);
+                                getType.GetComponent<Trap>().Trapping();
+                                //Destroy(getType);
                             }
                             else if (getType.GetComponent<Armor>() != null)
                             {
+                                StartCoroutine(hero.Drop());
+                                hero.GetComponent<Hero>().StartEffect("effect_giap");
                                 selectedObject.transform.SetParent(hit.collider.transform);
-                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
+                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 hero.powerId += getType.GetComponent<Armor>().powerId;
                                 hero.SetText();                               
                                 Destroy(getType);
@@ -113,22 +125,25 @@ public class PlayerCtrl : MonoBehaviour
                             {
                                 
                                 selectedObject.transform.SetParent(hit.collider.transform);
-                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
+                                selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 if (hero.powerId >= getType.GetComponent<Enemy>().powerIdEnemy)
-                                {
+                                {             
+                                    
+                                    StartCoroutine(hero.Drop());
                                     hero.AnimAttack();
+                                    StartCoroutine(DelayDrag());
                                     hero.powerId += getType.GetComponent<Enemy>().powerIdEnemy;
                                     hero.SetText();
-                                    Destroy(getType);
+                                    getType.GetComponent<Enemy>().AnimEnemyDie();
                                     EnemyManager.instance.enemyList.Remove(getType);
-                                    StartCoroutine(EnemyManager.instance.CheckWin(selectedObject));
                                                                       
                                     //selectedObject.GetComponent<Hero>().OpenBox();
                                 }
                                 else
                                 {
                                     getType.GetComponent<Enemy>().AnimAttack();
-                                    Destroy(selectedObject);
+                                    hero.AnimHeroDie();
+
                                     GameManager.instance.Lost();
 
                                 }
@@ -136,48 +151,51 @@ public class PlayerCtrl : MonoBehaviour
                             else
                             {
                                 SendBackToTile();
-                            }
+                                StartCoroutine(hero.Drop());
 
+                            }
+                            StartCoroutine(EnemyManager.instance.CheckWin(selectedObject));
+                        }
+                        else
+                        {
+                            StartCoroutine(hero.Drop());
 
                         }
                     }
                     else
                     {
-                        selectedObject.transform.SetParent(hit.collider.transform);
-                        selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.5f, 0, -2);
-                        hit.collider.GetComponent<Box>().GetEnemy();
+                        StartCoroutine(hero.Drop());
 
+                        selectedObject.transform.SetParent(hit.collider.transform);
+                        selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
+                        hit.collider.GetComponent<Box>().GetEnemy();
                     }
                     EnemyManager.instance.Colum();
                     EnemyManager.instance.DestroyBox();
+                    selectedObject.transform.SetParent(hit.collider.transform);
 
                 }
                 else
                 {
-                    //Debug.Log("nothing");
+                    StartCoroutine(hero.Drop());
+
                     SendBackToTile();
                 }
                 selectedObject = null;
 
             }
-
-
-        }
-        //if (Input.touchCount > 0)
-        //{
-        //    Touch touch = Input.GetTouch(0);
-        //    if (touch.phase == TouchPhase.Ended)
-        //    {
-               
-
-        //    }
-        //}
-      
+        }     
     }
    
     public void SendBackToTile()
     {
         selectedObject.transform.position = liftedfrom;
+    }
+    public IEnumerator DelayDrag()
+    {
+        drag = true;
+        yield return new WaitForSeconds(1f);
+        drag = false;
     }
     //public void CompareStrength(GameObject player,GameObject Enemy)
     //{

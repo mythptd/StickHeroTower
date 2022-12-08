@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -33,6 +34,7 @@ public class EnemyManager : MonoBehaviour
     private GameObject boss;
 
 
+
     //private int numberBox;
     private void Awake()
     {
@@ -42,18 +44,17 @@ public class EnemyManager : MonoBehaviour
     void Start()
 
     {
-        chest = GameObject.FindGameObjectWithTag("Chest");
-        boss = GameObject.FindGameObjectWithTag("Boss");
+        //FindBoss();
 
         //cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
 
         //AddColum(); 
-        Debug.Log(colum.Count);
+        //Debug.Log(colum.Count);
         
     }
     public void DestroyBox()
     {
-        for (int i = 0; i < colum.Count -2; i++)
+        for (int i = 0; i <= colum.Count -2; i++)
         {
             if (colum[i].transform.childCount <= 0)
             {
@@ -103,15 +104,19 @@ public class EnemyManager : MonoBehaviour
     public void AddColum()
     {
         hitColumCurrent = Physics2D.RaycastAll(posRay.transform.position, Vector2.up);
-        foreach (var item in hitColumCurrent)
+        for (int i = 0; i < hitColumCurrent.Length; i++)
         {
-
-            if (item.transform.tag == "Box" || item.transform.tag == "BoxEnemy")
+            if (hitColumCurrent[i].transform.tag == "Box" || hitColumCurrent[i].transform.tag == "BoxEnemy")
             {
-                colum.Add(item.transform.gameObject);
-
+                colum.Add(hitColumCurrent[i].transform.gameObject);
+                
             }
         }
+        //foreach (var item in hitColumCurrent)
+        //{
+
+            
+        //}
     }
     public void GetColumNext()
     {
@@ -122,10 +127,15 @@ public class EnemyManager : MonoBehaviour
             if (item.transform.tag == "BoxEnemy")
             {
                 moveCam = true;
+                return;
+                //Debug.Log("true");
             }
             else
             {
                 moveCam = false;
+                
+                //Debug.Log("false");
+
             }
         }
     }
@@ -136,43 +146,60 @@ public class EnemyManager : MonoBehaviour
             if (chest != null)
             {
                 selectedObject.GetComponent<Hero>().OpenBox();
-                chest.GetComponent<Animator>().Play("Chest");
+                yield return new WaitForSeconds(1);
+                chest.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(1, "box_open", true);
                 yield return new WaitForSeconds(2);
+                //selectedObject.transform.parent = null;
                 GameManager.instance.Win();
+                selectedObject.GetComponent<Hero>().AnimWin();
 
             }
             else if (boss != null)
             {
+                yield return new WaitForSeconds(1);
                 cameraFollow.MoveToBoss(boss.transform);
                 selectedObject.GetComponent<Hero>().MoveToBoss(boss);
                 yield return new WaitForSeconds(1);
-                StartCoroutine(GameManager.instance.TapBonus());
 
                 if (selectedObject.GetComponent<Hero>().powerId >= boss.GetComponent<Boss>().powerId)
-                {                    
+                {
+                    StartCoroutine(GameManager.instance.TapBonus());
                     yield return new WaitForSeconds(2);
                     selectedObject.GetComponent<Hero>().AnimAttack();
-                    Destroy(boss);
-                    yield return new WaitForSeconds(2);
+                    boss.GetComponent<Boss>().
+                    //Destroy(boss);
+                    StopAllCoroutines();
+                    GameManager.instance.CheckTapBonus();                    
+                    Vibration.Vibrate(1);
                     GameManager.instance.Win();
+                    selectedObject.GetComponent<Hero>().AnimWin();
+
                 }
                 else
                 {
                     yield return new WaitForSeconds(2);
                     boss.GetComponent<Boss>().AnimAttack();
-                    Destroy(selectedObject);
-                    yield return new WaitForSeconds(2);
+                    selectedObject.GetComponent<Hero>().AnimHeroDie();
+                    //Destroy(selectedObject);                    
+                    Vibration.Vibrate(1);
                     GameManager.instance.Lost();
-
                 }
             }
             else
             {
+                selectedObject.GetComponent<Hero>().AnimWin();
                 yield return new WaitForSeconds(2);
+                //selectedObject.transform.parent = null;
                 GameManager.instance.Win();
+
             }
         }
     }
-  
+    public void FindBoss()
+    {
+        chest = GameObject.FindGameObjectWithTag("Chest");
+        boss = GameObject.FindGameObjectWithTag("Boss");
+    }
+
 
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public enum MonsterType { 
     NONE,
-    SWORD,
-    KNIFE,
-    BOW
+    RIFLE,
+    SHOTGUN,
+    LAZE
    
 }

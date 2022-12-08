@@ -3,13 +3,23 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using Spine.Unity;
 
 public class Boss : MonoBehaviour
 {
+    public SkeletonAnimation skeletonAnimation;
+    public Spine.AnimationState animationState;
+    public Spine.Skeleton skeleton;
+
     public int powerId;
     private TextMeshPro textPower;
     private Animator anim;
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
+        animationState = skeletonAnimation.AnimationState;
+        skeleton = skeletonAnimation.Skeleton;
+    }
     void Start()
     {
         anim = gameObject.GetComponentInChildren<Animator>();
@@ -26,5 +36,10 @@ public class Boss : MonoBehaviour
     public void BossMove()
     {
         transform.DOMoveX(transform.position.x + 4,1);
+    }
+    public void AnimBossDie()
+    {
+        anim.SetTrigger("Attack");
+
     }
 }
