@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEditor.Progress;
+
 
 public class EnemyManager : MonoBehaviour
 {
@@ -148,7 +148,7 @@ public class EnemyManager : MonoBehaviour
                 selectedObject.GetComponent<Hero>().OpenBox();
                 yield return new WaitForSeconds(1);
                 chest.GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(1, "box_open", true);
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(1.5f);
                 //selectedObject.transform.parent = null;
                 GameManager.instance.Win();
                 selectedObject.GetComponent<Hero>().AnimWin();
@@ -188,7 +188,7 @@ public class EnemyManager : MonoBehaviour
             else
             {
                 selectedObject.GetComponent<Hero>().AnimWin();
-                yield return new WaitForSeconds(2);
+                yield return new WaitForSeconds(1.5f);
                 //selectedObject.transform.parent = null;
                 GameManager.instance.Win();
 

@@ -84,6 +84,8 @@ public class PlayerCtrl : MonoBehaviour
                             if (getType.GetComponent<Weapon>() != null)
                             {
                                 StartCoroutine(hero.Drop());
+                                EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
 
                                 hero.GetComponent<Hero>().StartEffect("effect");
                                 selectedObject.transform.SetParent(hit.collider.transform);
@@ -98,21 +100,30 @@ public class PlayerCtrl : MonoBehaviour
                             else if (getType.GetComponent<Trap>() != null)
                             {
                                 StartCoroutine(hero.Drop());
+                                EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
+
 
                                 selectedObject.transform.SetParent(hit.collider.transform);
                                 selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 hero.powerId -= getType.GetComponent<Trap>().powerId;
                                 hero.SetText();
+                                EnemyManager.instance.enemyList.Remove(getType);
                                 if (hero.powerId <= 0)
                                 {
                                     hero.AnimHeroDie();
                                     GameManager.instance.Lost();
                                 }
                                 getType.GetComponent<Trap>().Trapping();
+                                StartCoroutine(EnemyManager.instance.CheckWin(selectedObject));
+
                                 //Destroy(getType);
                             }
                             else if (getType.GetComponent<Armor>() != null)
                             {
+                                EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
+
                                 StartCoroutine(hero.Drop());
                                 hero.GetComponent<Hero>().StartEffect("effect_giap");
                                 selectedObject.transform.SetParent(hit.collider.transform);
@@ -123,7 +134,9 @@ public class PlayerCtrl : MonoBehaviour
                             }
                             else if (getType.tag == "Enemy" && getType != null && hero.monsterType == getType.GetComponent<Enemy>().monsterType)
                             {
-                                
+                                 EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
+
                                 selectedObject.transform.SetParent(hit.collider.transform);
                                 selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 if (hero.powerId >= getType.GetComponent<Enemy>().powerIdEnemy)
@@ -136,7 +149,8 @@ public class PlayerCtrl : MonoBehaviour
                                     hero.SetText();
                                     getType.GetComponent<Enemy>().AnimEnemyDie();
                                     EnemyManager.instance.enemyList.Remove(getType);
-                                                                      
+                                    StartCoroutine(EnemyManager.instance.CheckWin(selectedObject));
+
                                     //selectedObject.GetComponent<Hero>().OpenBox();
                                 }
                                 else
@@ -154,13 +168,14 @@ public class PlayerCtrl : MonoBehaviour
                                 StartCoroutine(hero.Drop());
 
                             }
-                            StartCoroutine(EnemyManager.instance.CheckWin(selectedObject));
+
                         }
                         else
                         {
                             StartCoroutine(hero.Drop());
 
                         }
+
                     }
                     else
                     {
@@ -170,15 +185,12 @@ public class PlayerCtrl : MonoBehaviour
                         selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                         hit.collider.GetComponent<Box>().GetEnemy();
                     }
-                    EnemyManager.instance.Colum();
-                    EnemyManager.instance.DestroyBox();
-                    selectedObject.transform.SetParent(hit.collider.transform);
+                    //selectedObject.transform.SetParent(hit.collider.transform);
 
                 }
                 else
                 {
                     StartCoroutine(hero.Drop());
-
                     SendBackToTile();
                 }
                 selectedObject = null;

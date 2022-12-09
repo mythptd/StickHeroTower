@@ -7050,7 +7050,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.78, y: 0, z: -22.781538}
+  m_LocalPosition: {x: 20.37, y: 0, z: -22.781538}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9080,11 +9080,11 @@ MonoBehaviour:
   saveTextlevel: 0
   levelList:
   - {fileID: 2420218772404123691, guid: 6e475ad238e98f4458d651b681eee8b3, type: 3}
-  - {fileID: 5507611398930986214, guid: 329870087836eae48807a36ccb1a10c3, type: 3}
-  - {fileID: 6340026743030548152, guid: 64b0ae7a925bb154b9fd353f685b5523, type: 3}
-  - {fileID: 6340026743030548152, guid: ab1b1ec98084ff24d8fa7304b9b804eb, type: 3}
-  - {fileID: 6340026743030548152, guid: 5341c73f6d63248419e9707ec80d5725, type: 3}
-  - {fileID: 6340026743030548152, guid: 7ada2a6c0cdb4504495a8494aebb210a, type: 3}
+  - {fileID: 2420218772404123691, guid: 91df846c8641a204b88aa314630085e8, type: 3}
+  - {fileID: 2420218772404123691, guid: 83552e6eef216e5409a63b7cb34ca5c5, type: 3}
+  - {fileID: 2420218772404123691, guid: 3ce184b26f7159643a0ee7c5cb41f9f7, type: 3}
+  - {fileID: 2420218772404123691, guid: 6aa4a607e77cb454baa10210917948cd, type: 3}
+  - {fileID: 2420218772404123691, guid: 378c9ca8f63eedd42b57252d780d6a5c, type: 3}
   levelCurrent: 0
   menuPanel: {fileID: 515071635}
   gamePlayPanel: {fileID: 419263293}

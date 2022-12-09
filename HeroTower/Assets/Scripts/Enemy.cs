@@ -20,8 +20,8 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         skeletonAnimation = GetComponentInChildren<SkeletonAnimation>();
-        anim = skeletonAnimation.AnimationState;
-        skeleton = skeletonAnimation.Skeleton;
+        //anim = skeletonAnimation.AnimationState;
+        //skeleton = skeletonAnimation.Skeleton;
     }
     void Start()
     {

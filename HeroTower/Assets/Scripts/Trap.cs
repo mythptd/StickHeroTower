@@ -21,6 +21,8 @@ public class Trap : MonoBehaviour
     }
     void Start()
     {
+        EnemyManager.instance.enemyList.Add(gameObject);
+
         textPower = transform.GetChild(0).GetComponent<TextMeshPro>();
 
         textPower.text = "-" + powerId.ToString();

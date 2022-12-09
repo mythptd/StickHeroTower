@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
     {
         //gold += 100;
         //CheckTapBonus();
-
+        EnemyManager.instance.enemyList.Clear();
         goldText.text = gold.ToString();
 
         EnemyManager.instance.box.Clear();
@@ -190,6 +190,7 @@ public class GameManager : MonoBehaviour
     }
     public void PlayAgain()
     {
+        EnemyManager.instance.enemyList.Clear();
         EnemyManager.instance.box.Clear();
         EnemyManager.instance.colum.Clear();
 
@@ -219,6 +220,7 @@ public class GameManager : MonoBehaviour
     }
     public void StartGame()
     {
+        EnemyManager.instance.enemyList.Clear();
         AudioManager.instance.Play("MusicGamePlay");
         AudioManager.instance.Pause("MusicMenu");
 
@@ -263,6 +265,8 @@ public class GameManager : MonoBehaviour
     }
     public void RestartGame()
     {
+        EnemyManager.instance.enemyList.Clear();
+
         EnemyManager.instance.box.Clear();
         EnemyManager.instance.colum.Clear();
 

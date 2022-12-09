@@ -36,7 +36,7 @@ public class Hero : MonoBehaviour
     {
         skeletonAnimation =  GetComponentInChildren<SkeletonAnimation>();
         effect = transform.GetChild(2).GetComponent<SkeletonAnimation>();
-        animationState = skeletonAnimation.AnimationState;
+        //animationState = skeletonAnimation.AnimationState;
        // skeleton = skeletonAnimation.Skeleton;
 
         //animationState.End += delegate

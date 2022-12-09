@@ -23,6 +23,7 @@ public class CameraFollow : MonoBehaviour
         posX += 3.2f;        
         transform.DOMoveX(posX, 0.5f).OnComplete(() =>
         {
+            posX = 0;
             EnemyManager.instance.AddColum();
             EnemyManager.instance.GetColumNext();
 
