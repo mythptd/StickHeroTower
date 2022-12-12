@@ -76,30 +76,13 @@ public class EnemyManager : MonoBehaviour
                 {
                     cameraFollow.MoveCam();
                     colum.Clear();
-
                 }
             }
             else 
             {
                 break;
-            }           
+            }
         }
-        //int a = 0;
-        //foreach (GameObject item in colum)
-        //{          
-        //    if (item.transform.childCount > 0)
-        //    {
-        //        break;
-        //    }
-        //    else
-        //    {
-        //        a += 1;
-        //        if (colum.Count - a == 0)
-        //        {
-        //            cameraFollow.MoveCam();
-        //        }               
-        //    }
-        //}
     }
     public void AddColum()
     {
@@ -166,13 +149,14 @@ public class EnemyManager : MonoBehaviour
                     StartCoroutine(GameManager.instance.TapBonus());
                     yield return new WaitForSeconds(2);
                     selectedObject.GetComponent<Hero>().AnimAttack();
-                    boss.GetComponent<Boss>().
+                    yield return new WaitForSeconds(1);
+                    boss.GetComponent<Boss>().AnimEnemyDie();
+                    selectedObject.GetComponent<Hero>().AnimWin();
                     //Destroy(boss);
                     StopAllCoroutines();
                     GameManager.instance.CheckTapBonus();                    
                     Vibration.Vibrate(1);
                     GameManager.instance.Win();
-                    selectedObject.GetComponent<Hero>().AnimWin();
 
                 }
                 else

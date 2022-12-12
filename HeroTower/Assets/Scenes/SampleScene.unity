@@ -2805,7 +2805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &419263294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3656,7 +3656,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545839388}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.22, y: -9.6, z: 10.818106}
+  m_LocalPosition: {x: -1.21, y: -9.6, z: 10.818106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7050,7 +7050,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.37, y: 0, z: -22.781538}
+  m_LocalPosition: {x: 20.1, y: 0, z: -22.781538}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9080,11 +9080,15 @@ MonoBehaviour:
   saveTextlevel: 0
   levelList:
   - {fileID: 2420218772404123691, guid: 6e475ad238e98f4458d651b681eee8b3, type: 3}
-  - {fileID: 2420218772404123691, guid: 91df846c8641a204b88aa314630085e8, type: 3}
   - {fileID: 2420218772404123691, guid: 83552e6eef216e5409a63b7cb34ca5c5, type: 3}
-  - {fileID: 2420218772404123691, guid: 3ce184b26f7159643a0ee7c5cb41f9f7, type: 3}
-  - {fileID: 2420218772404123691, guid: 6aa4a607e77cb454baa10210917948cd, type: 3}
-  - {fileID: 2420218772404123691, guid: 378c9ca8f63eedd42b57252d780d6a5c, type: 3}
+  - {fileID: 2420218772404123691, guid: 91df846c8641a204b88aa314630085e8, type: 3}
+  - {fileID: 2420218772404123691, guid: 0a2831ed3ec29014ba83addc70a29b6d, type: 3}
+  - {fileID: 2420218772404123691, guid: e93f0a21e95d66745932ce1313194b1f, type: 3}
+  - {fileID: 2420218772404123691, guid: 53ba0ba2921df3a4f8150df9fbad80a5, type: 3}
+  - {fileID: 2420218772404123691, guid: 0961916a2bfe0804abf79937199f8a1f, type: 3}
+  - {fileID: 2420218772404123691, guid: f78611d6aff335b438ab6097a0cd5670, type: 3}
+  - {fileID: 2420218772404123691, guid: e2c91368826a2f34485207470f040534, type: 3}
+  - {fileID: 2420218772404123691, guid: d1f51f9bc3d9aaf4e82cae95343b099f, type: 3}
   levelCurrent: 0
   menuPanel: {fileID: 515071635}
   gamePlayPanel: {fileID: 419263293}
