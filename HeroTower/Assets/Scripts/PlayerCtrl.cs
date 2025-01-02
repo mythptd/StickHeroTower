@@ -84,8 +84,8 @@ public class PlayerCtrl : MonoBehaviour
                             if (getType.GetComponent<Weapon>() != null)
                             {
                                 StartCoroutine(hero.Drop());
-                                //EnemyManager.instance.Colum();
-                                //EnemyManager.instance.DestroyBox();
+                                EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
 
                                 hero.GetComponent<Hero>().StartEffect("effect");
                                 selectedObject.transform.SetParent(hit.collider.transform);
@@ -100,8 +100,8 @@ public class PlayerCtrl : MonoBehaviour
                             else if (getType.GetComponent<Trap>() != null)
                             {
                                 StartCoroutine(hero.Drop());
-                                //EnemyManager.instance.Colum();
-                                //EnemyManager.instance.DestroyBox();
+                                EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
 
 
                                 selectedObject.transform.SetParent(hit.collider.transform);
@@ -121,8 +121,8 @@ public class PlayerCtrl : MonoBehaviour
                             }
                             else if (getType.GetComponent<Armor>() != null)
                             {
-                                //EnemyManager.instance.Colum();
-                                //EnemyManager.instance.DestroyBox();
+                                EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
 
                                 StartCoroutine(hero.Drop());
                                 hero.GetComponent<Hero>().StartEffect("effect_giap");
@@ -134,9 +134,10 @@ public class PlayerCtrl : MonoBehaviour
                             }
                             else if (getType.tag == "Enemy" && getType != null && hero.monsterType == getType.GetComponent<Enemy>().monsterType)
                             {
+                                 EnemyManager.instance.Colum();
+                                EnemyManager.instance.DestroyBox();
 
-                                
-
+                                selectedObject.transform.SetParent(hit.collider.transform);
                                 selectedObject.transform.position = hit.collider.transform.position + new Vector3(-0.4f, -0.3f, -2);
                                 if (hero.powerId >= getType.GetComponent<Enemy>().powerIdEnemy)
                                 {             
@@ -158,21 +159,16 @@ public class PlayerCtrl : MonoBehaviour
                                     hero.AnimHeroDie();
 
                                     GameManager.instance.Lost();
+
                                 }
-                                EnemyManager.instance.Colum();
-                                EnemyManager.instance.DestroyBox();
-                                selectedObject.transform.SetParent(hit.collider.transform);
-                            }
-                            else if(hero.monsterType != getType.GetComponent<Enemy>().monsterType)
-                            {
-                                EnemyManager.instance.moveCam = false;
                             }
                             else
                             {
-                                //EnemyManager.instance.moveCam = false;
                                 SendBackToTile();
                                 StartCoroutine(hero.Drop());
+
                             }
+
                         }
                         else
                         {
@@ -190,7 +186,7 @@ public class PlayerCtrl : MonoBehaviour
                         hit.collider.GetComponent<Box>().GetEnemy();
                     }
                     //selectedObject.transform.SetParent(hit.collider.transform);
-                   
+
                 }
                 else
                 {

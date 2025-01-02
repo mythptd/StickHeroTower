@@ -92,13 +92,13 @@ public class GameManager : MonoBehaviour
     public void Win()
     {
         winPanel.SetActive(true);  
-        //winPanel.transform.DOScale(Vector3.one, 1).SetDelay(2).From(0);
+        winPanel.transform.DOScale(Vector3.one, 1).SetDelay(2).From(0);
 
     }
     public void Lost()
     {
         lostPanel.SetActive(true);
-        //lostPanel.transform.DOScale(Vector3.one,1).SetDelay(2).From(0);
+        lostPanel.transform.DOScale(Vector3.one,1).SetDelay(2).From(0);
     }
     public IEnumerator TapBonus()
     {
